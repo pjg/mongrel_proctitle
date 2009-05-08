@@ -1,9 +1,9 @@
 module Mongrel
-  
-  # Mongrel process title modification.  
+
+  # Mongrel process title modification.
   class Proctitler
-      
-    # Initializes titler.    
+
+    # Initializes titler.
     def initialize(port, prefix)
       @prefix = prefix
       @port = port
@@ -12,17 +12,17 @@ module Mongrel
       @queue_length = 0
       @request_count = 0
     end
-    
+
     # Returns port used in title.
     def port
       @port
     end
-    
+
     # Return port used in title.
     def port=(new_port)
       @port = new_port
     end
-    
+
     def request(&block)
       titles, mutex = @titles, @mutex
       mutex.synchronize do
@@ -39,12 +39,12 @@ module Mongrel
         end
       end
     end
-    
+
     # Reports process as being idle.
     def set_idle
       self.title = "idle"
     end
-    
+
     # Reports process as handling a socket.
     def set_processing(socket)
       self.title = "handling #{socket.peeraddr.last}"
@@ -59,18 +59,18 @@ module Mongrel
       path = "#{path[0, 60]}..." if path.length > 60
       self.title = "handling #{address}: #{method} #{path}"
     end
-    
+
     # Returns current title
     def title
       @title
     end
-    
+
     # Sets process title.
     def title=(title)
       @title = title
       update_process_title
     end
-    
+
     # Updates the process title.
     def update_process_title
       title = "#{@prefix} ["
@@ -82,7 +82,7 @@ module Mongrel
     end
 
   end
-  
+
   # Handler which sets process title before request.
   class ProctitleHandler < HttpHandler
     def initialize(titler)
@@ -91,7 +91,7 @@ module Mongrel
 
     def process(request, response)
       @titler.set_handling(request)
-    end    
+    end
   end
 
   class HttpServer
@@ -118,5 +118,5 @@ module Mongrel
     alias_method :process_client, :process_client_with_proctitle
 
   end
-  
+
 end

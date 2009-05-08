@@ -10,7 +10,7 @@ This is a simple plugin for Rails which changes Mongrel's process title to refle
                  |     | |     |        The client IP
                  |     | |     |
                  |     | |     What it's doing
-                 |     | |     
+                 |     | |
                  |     | The number of requests processed during the server's lifetime
                  |     |
                  |     The number of requests currently queued/being processed concurrently
